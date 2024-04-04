@@ -1,0 +1,130 @@
+html, body{
+    height: 100%;
+}
+
+@font-face {
+    font-family: 'Digital7';
+    src: url(fonts/Digital7-rg1mL.ttf);
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #1C2541;
+    font-family: 'Digital7' ;
+    font-size: 4vh;
+}
+
+.calculator{
+    width: 50vh;
+    height: 80vh;
+    background-color: #2978A0;
+    border-radius: 20px;
+    box-shadow: 24px 24px 2px 10px #0B132B;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+.screen{
+    width: 80%;
+    height: 30%;
+    padding: 1%;
+    background-color: #F0EDEE;
+    border-radius: 20px;
+    border: 10px inset #2978A0;
+    display: flex;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.input{
+    margin-top: 8px;;
+    width: 100%;
+    height: 70%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.result{
+    width: 100%;
+    height: 30%;
+    align-self: flex-end;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.buttons{
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 60%;
+}
+
+.numbers, .right-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.numbers{
+    flex-wrap: wrap;
+    width: 55%;
+    height: 80%;
+}
+
+.btn{
+    width: 7vh;
+    height: 5vh;
+    background-color: #90DDF0;
+    margin: 2px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 8px outset #2978A0;
+    margin: 0;
+}
+
+.btn:hover{
+    background-color: #1c526d;
+    cursor: pointer;
+}
+
+.right-btn{
+    width: 45%;
+    height: 80%;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.operators{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 10px 0;
+}
+
+
+
+.clear{
+    display: flex;
+    justify-content: center;
+    margin: 10px 0 15px 0;
+}
+
+.equal{
+    display: flex;
+    justify-content: center;
+    width: 70%;
+    padding: 0;
+    margin: 0;
+}
