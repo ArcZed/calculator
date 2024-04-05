@@ -80,7 +80,8 @@ function takeInput(operator){
   currentResult !== 0 ? currentResult = operate(currentResult, inputValue, currentOperator) : currentResult = inputValue;
   console.log(currentResult);
 
-  result.textContent = currentResult;
+  isNaN(currentResult) ? result.textContent = 'Error' : result.textContent = currentResult;
+  
   input.textContent = '';
   
   if(operator === '='){
