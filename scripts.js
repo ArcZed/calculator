@@ -1,12 +1,17 @@
 const screen = document.querySelector('.screen');
 const btn = document.querySelectorAll('.btn');
 const input = document.querySelector('.input');
+const inputList = document.querySelector('.inputList');
 const result = document.querySelector('.result');
 
 let currentResult = 0;
+let inputValue = 0;
+
 let operators = ['+', '−', '×', '÷'];
+let currentOperator = '';
 
 let isNum = false;
+let gotResult = false;
 
 btn.forEach((item)=>{
   item.addEventListener("click", (e)=>{
@@ -22,11 +27,20 @@ btn.forEach((item)=>{
       case '7':
       case '8':
       case '9':
+        if(!gotResult)
+        updateInput(e);
+        else{
+          reset();
+          updateInput(e);
+          gotResult = false;
+        }
+        break;
       case '+':
       case '−':
       case '×':
       case '÷':
-        input.textContent += e.target.innerText;
+        takeInput(e.target.innerText);
+        inputList.textContent += e.target.innerText;
         break;
       case 'AC':
         reset();
@@ -35,9 +49,13 @@ btn.forEach((item)=>{
         let inputContent = input.textContent.split('');
         inputContent.splice(-1,1);
         input.textContent = inputContent.join('');
+        let inputListContent = inputList.textContent.split('');
+        inputListContent.splice(-1,1);
+        inputList.textContent = inputListContent.join('');
         break;
-      case '=':
-        calculate();
+        case '=':
+          takeInput(e.target.innerText);
+          break;
       default:
         break;
     }
@@ -46,37 +64,31 @@ btn.forEach((item)=>{
   })  
 });
 
-function calculate(){
+function updateInput(e){
 
-  let inputArr = input.textContent.split('');
-  findTwoDigit(inputArr);
+  input.textContent += e.target.innerText;
+  inputList.textContent += e.target.innerText;
 
 }
 
-function findTwoDigit(arr = []){
+function takeInput(operator){
 
-  let newArr = arr;
-  console.log(newArr);
-  if(operators.includes(newArr[0])){
-    newArr.unshift(currentResult);
-  }
-  for(let item of arr){
-    if(!operators.includes(arr[0]) && !isNum){
-      newArr.splice(-1, 0, item);
-      isNum = true;
-    }
-    if(!operators.includes(arr[0]) && isNum){
-      newArr.splice(arr.indexOf(item)-1, 2, arr[arr.indexOf(item)-1]+arr[arr.indexOf(item)]);
-      isNum == false;
-    }
-    if(operators.includes(arr[0])){
-      newArr.splice(-1, 0, item);
-      isNum = false;
-    }
-  }
-  console.log(newArr);
-  return newArr;
 
+
+  inputValue = parseInt(input.textContent);
+  console.log(inputValue);
+  currentResult !== 0 ? currentResult = operate(currentResult, inputValue, currentOperator) : currentResult = inputValue;
+  console.log(currentResult);
+
+  result.textContent = currentResult;
+  input.textContent = '';
+  
+  if(operator === '='){
+    currentOperator = '';
+    gotResult = true;
+  }
+  else{currentOperator = operator;}
+  isCalculating = true;
 }
 
 function add(...num){
@@ -114,18 +126,19 @@ function divide(...num){
 }
 
 function operate(first, second, operator){
+  
   switch (operator){
-    case 'add':
-      add(first, second);
+    case '+':
+      return add(first, second);
       break;
-    case 'subtract':
-      subtract(first,second);
+    case '−':
+      return subtract(first,second);
       break;
-    case 'multiply':
-      multiply(first,second);
+    case '×':
+      return multiply(first,second);
       break;
-    case 'divide':
-      divide(first,second);
+    case '÷':
+      return divide(first,second);
       break;
     default:
       break;
@@ -135,6 +148,10 @@ function operate(first, second, operator){
 function reset(){
   input.textContent = '';
   result.textContent = '0';
+  currentOperator = '';
+  inputList.textContent = '';
   isNum = false;
+  inputValue = 0;
+  currentResult = 0;
+  
 }
-
