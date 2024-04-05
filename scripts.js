@@ -39,6 +39,7 @@ btn.forEach((item)=>{
       case '−':
       case '×':
       case '÷':
+        if(currentOperator === ''){currentOperator = e.target.innerText}
         takeInput(e.target.innerText);
         inputList.textContent += e.target.innerText;
         break;
@@ -55,6 +56,12 @@ btn.forEach((item)=>{
         break;
         case '=':
           takeInput(e.target.innerText);
+          input.textContent = '';
+          currentOperator = '';
+          inputList.textContent = '';
+          isNum = false;
+          inputValue = 0;
+          currentResult = 0;
           break;
       default:
         break;
@@ -73,14 +80,12 @@ function updateInput(e){
 
 function takeInput(operator){
 
-
-
   inputValue = parseInt(input.textContent);
   console.log(inputValue);
   currentResult !== 0 ? currentResult = operate(currentResult, inputValue, currentOperator) : currentResult = inputValue;
   console.log(currentResult);
 
-  isNaN(currentResult) ? result.textContent = 'Error' : result.textContent = currentResult;
+  isNaN(currentResult) ? result.textContent = 'Error' : result.textContent = Math.round(currentResult*100000)/100000;
   
   input.textContent = '';
   
@@ -89,7 +94,6 @@ function takeInput(operator){
     gotResult = true;
   }
   else{currentOperator = operator;}
-  isCalculating = true;
 }
 
 function add(...num){
