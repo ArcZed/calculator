@@ -6,7 +6,6 @@ const result = document.querySelector('.result');
 
 let currentResult = 0;
 let inputValue = 0;
-let previousAns = 0;
 
 let operators = ['+', '−', '×', '÷'];
 let currentOperator = '';
@@ -93,16 +92,8 @@ function takeInput(operator){
     }
     else{inputValue = parseFloat(input.textContent);}
   }
-
-
-  
   
   currentResult !== 0 ? currentResult = operate(currentResult, inputValue, currentOperator) : currentResult = inputValue;
-  previousAns = currentResult;
-
-  console.log(currentResult);
-  console.log(inputValue);
-  console.log(currentOperator);
 
   if(isNaN(currentResult)){
     result.textContent = 'Error';
@@ -183,5 +174,4 @@ function reset(){
   isNum = false;
   inputValue = 0;
   currentResult = 0;
-  previousAns = 0;
 }
