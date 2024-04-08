@@ -6,6 +6,7 @@ const result = document.querySelector('.result');
 
 let currentResult = 0;
 let inputValue = 0;
+let previousAns = 0;
 
 let operators = ['+', '−', '×', '÷'];
 let currentOperator = '';
@@ -27,10 +28,12 @@ btn.forEach((item)=>{
       case '7':
       case '8':
       case '9':
+      case '.': 
+      case 'Ans':
         if(!gotResult)
         updateInput(e);
         else{
-          reset();
+          reset()
           updateInput(e);
           gotResult = false;
         }
@@ -58,10 +61,10 @@ btn.forEach((item)=>{
           takeInput(e.target.innerText);
           input.textContent = '';
           currentOperator = '';
-          inputList.textContent = '';
+
           isNum = false;
           inputValue = 0;
-          currentResult = 0;
+          
           break;
       default:
         break;
@@ -79,14 +82,36 @@ function updateInput(e){
 }
 
 function takeInput(operator){
-
-  inputValue = parseInt(input.textContent);
-  console.log(inputValue);
-  currentResult !== 0 ? currentResult = operate(currentResult, inputValue, currentOperator) : currentResult = inputValue;
-  console.log(currentResult);
-
-  isNaN(currentResult) ? result.textContent = 'Error' : result.textContent = Math.round(currentResult*100000)/100000;
   
+  let inputCont = input.textContent.split('');
+  if(inputCont.filter(x => x === '.').length >= 2){
+    inputValue = 'NaN';
+  }
+  else{
+    if(input.textContent === 'Ans'){
+      inputValue = previousAns;
+    }
+    else{inputValue = parseFloat(input.textContent);}
+  }
+
+
+  
+  
+  currentResult !== 0 ? currentResult = operate(currentResult, inputValue, currentOperator) : currentResult = inputValue;
+  previousAns = currentResult;
+
+  console.log(currentResult);
+  console.log(inputValue);
+  console.log(currentOperator);
+
+  if(isNaN(currentResult)){
+    result.textContent = 'Error';
+  }
+  else if(!isFinite(currentResult)){
+    result.textContent = 'You are CURSED!!!';
+  }
+  else{result.textContent = Math.round(currentResult*100000)/100000;}
+
   input.textContent = '';
   
   if(operator === '='){
@@ -158,5 +183,5 @@ function reset(){
   isNum = false;
   inputValue = 0;
   currentResult = 0;
-  
+  previousAns = 0;
 }
