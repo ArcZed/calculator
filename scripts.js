@@ -9,14 +9,89 @@ let inputValue = 0;
 
 let operators = ['+', '−', '×', '÷'];
 let currentOperator = '';
+let eventContent = '';
 
 let isNum = false;
 let gotResult = false;
 
+document.addEventListener("keydown", (e)=>{
+
+  eventContent = e.key;
+  console.log(eventContent)
+  switch(eventContent){
+    case '0': 
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+    case '.': 
+      if(!gotResult){
+      updateInput(eventContent);}
+      else{
+        reset()
+        updateInput(eventContent);
+        gotResult = false;
+      }
+      break;
+    case '+':
+      if(currentOperator === ''){currentOperator = eventContent}
+      takeInput(eventContent);
+      inputList.textContent += eventContent;
+      break;
+    case '-': 
+      eventContent = '−';
+      if(currentOperator === ''){currentOperator = eventContent}
+      takeInput(eventContent);
+      inputList.textContent += eventContent;
+      break;
+    case '*': 
+      eventContent = '×';
+      if(currentOperator === ''){currentOperator = eventContent}
+      takeInput(eventContent);
+      inputList.textContent += eventContent;
+      break;
+    case '/': 
+      eventContent = '÷';
+      if(currentOperator === ''){currentOperator = eventContent}
+      takeInput(eventContent);
+      inputList.textContent += eventContent;
+      break;
+    case 'r':
+      reset();
+      break;
+    case 'Backspace':
+    case 'Delete':
+      let inputContent = input.textContent.split('');
+      inputContent.splice(-1,1);
+      input.textContent = inputContent.join('');
+      let inputListContent = inputList.textContent.split('');
+      inputListContent.splice(-1,1);
+      inputList.textContent = inputListContent.join('');
+      break;
+      case '=':
+      case 'Enter':
+        eventContent = '='
+        takeInput(eventContent);
+        input.textContent = '';
+        currentOperator = '';
+        isNum = false;
+        inputValue = 0;
+        break;
+    default:
+      break;
+  }
+})
+
 btn.forEach((item)=>{
   item.addEventListener("click", (e)=>{
-
-    switch(e.target.innerText){
+    
+    eventContent = e.target.innerText;
+    switch(eventContent){
       case '0': 
       case '1':
       case '2':
@@ -30,10 +105,10 @@ btn.forEach((item)=>{
       case '.': 
       case 'Ans':
         if(!gotResult)
-        updateInput(e);
+        updateInput(eventContent);
         else{
-          reset()
-          updateInput(e);
+          reset();
+          updateInput(eventContent);
           gotResult = false;
         }
         break;
@@ -41,9 +116,9 @@ btn.forEach((item)=>{
       case '−':
       case '×':
       case '÷':
-        if(currentOperator === ''){currentOperator = e.target.innerText}
-        takeInput(e.target.innerText);
-        inputList.textContent += e.target.innerText;
+        if(currentOperator === ''){currentOperator = eventContent}
+        takeInput(eventContent);
+        inputList.textContent += eventContent;
         break;
       case 'AC':
         reset();
@@ -57,26 +132,22 @@ btn.forEach((item)=>{
         inputList.textContent = inputListContent.join('');
         break;
         case '=':
-          takeInput(e.target.innerText);
+          takeInput(eventContent);
           input.textContent = '';
           currentOperator = '';
-
           isNum = false;
           inputValue = 0;
-          
           break;
       default:
         break;
     }
-     
-
   })  
 });
 
-function updateInput(e){
+function updateInput(content){
 
-  input.textContent += e.target.innerText;
-  inputList.textContent += e.target.innerText;
+  input.textContent += content;
+  inputList.textContent += content;
 
 }
 
@@ -93,6 +164,8 @@ function takeInput(operator){
     else{inputValue = parseFloat(input.textContent);}
   }
   
+  console.log(`${currentResult} ${inputValue} ${currentOperator}`)
+
   currentResult !== 0 ? currentResult = operate(currentResult, inputValue, currentOperator) : currentResult = inputValue;
 
   if(isNaN(currentResult)){
@@ -174,4 +247,5 @@ function reset(){
   isNum = false;
   inputValue = 0;
   currentResult = 0;
+  gotResult = false;
 }
